@@ -28,14 +28,14 @@ class _JobDateSearchScreenState extends State<JobDateSearchScreen> {
     super.dispose();
   }
 
-  void _saveForm(String locationName) {
-    Navigator.of(context).pushNamed(JobHoursSearchScreen.routeName, arguments: {'locationName': locationName, 'chosenDate':_chosenDate});
+  void _saveForm(Map list) {
+    list['chosenDate'] = _chosenDate;
+    Navigator.of(context).pushNamed(JobHoursSearchScreen.routeName, arguments: list);
   }
 
   @override
   Widget build(BuildContext context) {
-    final _locationName = ModalRoute.of(context).settings.arguments as String;
-    //print(_locationName);
+    final list = ModalRoute.of(context).settings.arguments as Map<String, Object>;
 
     return Scaffold(
       appBar: AppBar(
@@ -190,7 +190,7 @@ class _JobDateSearchScreenState extends State<JobDateSearchScreen> {
       ),
       floatingActionButton: FloatingActionButton.extended(
         onPressed: () {
-          _saveForm(_locationName);
+          _saveForm(list);
         },
         label: Row(
           children: <Widget>[

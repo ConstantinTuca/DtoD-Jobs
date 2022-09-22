@@ -65,6 +65,7 @@ flutter:
     - assets/images/profil.jpeg
     - assets/images/no_elements.jpg
     - assets/images/no-result.png
+    - assets/images/maintenance.png
   #  - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see

@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:jobs_app/widgets/pick_location_button.dart';
@@ -38,18 +39,17 @@ class JobSpeechRecognitionScreenState
   Future<void> initSpeechState() async {
     bool hasSpeech = await speech.initialize(
         onError: errorListener, onStatus: statusListener);
+
+    setState(() {
+      _hasSpeech = hasSpeech;
+    });
+
     if (hasSpeech) {
       _localeNames = await speech.locales();
 
       var systemLocale = await speech.systemLocale();
       _currentLocaleId = systemLocale.localeId;
     }
-
-    if (!mounted) return;
-
-    setState(() {
-      _hasSpeech = hasSpeech;
-    });
   }
 
   @override
@@ -238,6 +238,9 @@ class JobSpeechRecognitionScreenState
   }
 
   void stopListening() {
+    print('stop');
+    print(_hasSpeech);
+    print(speech.isListening);
     speech.stop();
     setState(() {
       level = 0.0;

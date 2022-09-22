@@ -35,7 +35,6 @@ class _YourPostScreenState extends State<YourPostScreen> {
         setState(() {
           _isLoading = false;
           job = value;
-          //print(job.title);
         });
       });
     }

@@ -23,6 +23,8 @@ class _JobLocationInputScreenState extends State<JobLocationInputScreen> {
   final _descriptionFocusNode = FocusNode();
   final _form = GlobalKey<FormState>();
   var _locationName = '';
+  var _locationLatitude = 0.0;
+  var _locationLongitude = 0.0;
   var _isVisible = false;
 
   var _editedJob = Job(
@@ -32,6 +34,8 @@ class _JobLocationInputScreenState extends State<JobLocationInputScreen> {
     nrWorkers: 0,
     genderWorkers: 0,
     location: '',
+    locationLatitude: 0.0,
+    locationLongitude: 0.0,
     detailsLocation: '',
     pricePerWorkerPerHour: 0,
     dateTimeStart: null,
@@ -58,6 +62,8 @@ class _JobLocationInputScreenState extends State<JobLocationInputScreen> {
     //_locationName = result.formattedAddress;
     setState(() {
       _locationName = result.formattedAddress;
+      _locationLatitude = result.latLng.latitude;
+      _locationLongitude = result.latLng.longitude;
       _isVisible = true;
     });
     print(result.latLng);
@@ -73,6 +79,8 @@ class _JobLocationInputScreenState extends State<JobLocationInputScreen> {
         nrWorkers: job.nrWorkers,
         genderWorkers: job.genderWorkers,
         location: _locationName,
+        locationLatitude: _locationLatitude,
+        locationLongitude: _locationLongitude,
         detailsLocation: job.detailsLocation,
         pricePerWorkerPerHour: job.pricePerWorkerPerHour,
         dateTimeStart: job.dateTimeStart,

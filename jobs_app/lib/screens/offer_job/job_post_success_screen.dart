@@ -17,6 +17,8 @@ class JobPostSuccessScreen extends StatelessWidget {
     print(_editedJob.nrWorkers);
     print(_editedJob.genderWorkers);
     print(_editedJob.location);
+    print(_editedJob.locationLatitude);
+    print(_editedJob.locationLongitude);
     print(_editedJob.detailsLocation);
     print(_editedJob.pricePerWorkerPerHour);
     print(_editedJob.dateTimeStart.toString());

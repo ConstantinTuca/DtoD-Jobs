@@ -23,6 +23,8 @@ class JobLocationEditScreen extends StatefulWidget {
 class _JobLocationEditScreenState extends State<JobLocationEditScreen> {
   final _form = GlobalKey<FormState>();
   var _locationName = '';
+  var _locationLatitude = 0.0;
+  var _locationLongitude = 0.0;
   var _isVisible = false;
   var _isLoading = false;
   var _isInit = true;
@@ -34,6 +36,8 @@ class _JobLocationEditScreenState extends State<JobLocationEditScreen> {
     nrWorkers: 0,
     genderWorkers: 0,
     location: '',
+    locationLatitude: 0.0,
+    locationLongitude: 0.0,
     detailsLocation: '',
     pricePerWorkerPerHour: 0,
     dateTimeStart: null,
@@ -56,6 +60,8 @@ class _JobLocationEditScreenState extends State<JobLocationEditScreen> {
       ModalRoute.of(context).settings.arguments as Job;
       setState(() {
         _locationName = job.location;
+        _locationLatitude = job.locationLatitude;
+        _locationLongitude = job.locationLongitude;
       });
     }
     _isInit = false;
@@ -72,10 +78,10 @@ class _JobLocationEditScreenState extends State<JobLocationEditScreen> {
     //_locationName = result.formattedAddress;
     setState(() {
       _locationName = result.formattedAddress;
+      _locationLatitude = result.latLng.latitude;
+      _locationLongitude = result.latLng.longitude;
       _isVisible = true;
     });
-//    print(result.formattedAddress);
-//    print(result.name);
   }
 
   Future<void> _saveForm(Job job) async{
@@ -87,6 +93,8 @@ class _JobLocationEditScreenState extends State<JobLocationEditScreen> {
         nrWorkers: job.nrWorkers,
         genderWorkers: job.genderWorkers,
         location: _locationName,
+        locationLatitude: _locationLatitude,
+        locationLongitude: _locationLongitude,
         detailsLocation: job.detailsLocation,
         pricePerWorkerPerHour: job.pricePerWorkerPerHour,
         dateTimeStart: job.dateTimeStart,

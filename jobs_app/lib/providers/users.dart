@@ -34,7 +34,7 @@ class Users with ChangeNotifier {
     _token = extractedUserData['token'];
     _expiryDate = expiryDate;
 
-    final url = 'https://tucanu.com/api/user/profile/';
+    final url = 'https://constantintuca.com/api/user/profile/';
     final response = await http.get(
       url,
       headers: {
@@ -69,7 +69,7 @@ class Users with ChangeNotifier {
   }
 
   Future<void> updateUser(String id, User newUser) async {
-    final url = 'https://tucanu.com/api/user/profile/';
+    final url = 'https://constantintuca.com/api/user/profile/';
 
     final response = await http.put(
       url,
@@ -105,7 +105,7 @@ class Users with ChangeNotifier {
   Future<void> changePassword(
       String currentPassword, String newPassword) async {
     try {
-      final url = 'https://tucanu.com/api/user/reset-password/';
+      final url = 'https://constantintuca.com/api/user/reset-password/';
 
       final response = await http.put(
         url,
@@ -153,7 +153,7 @@ class Users with ChangeNotifier {
     }
     _token = extractedUserData['token'];
 
-    final url = 'https://tucanu.com/api/user/profile/?id=$id';
+    final url = 'https://constantintuca.com/api/user/profile/?id=$id';
     try {
       final response = await http.get(
         url,

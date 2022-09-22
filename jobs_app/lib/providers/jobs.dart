@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
+import 'dart:math';
 
 import 'package:flutter/material.dart';
 
@@ -51,13 +52,14 @@ class Jobs with ChangeNotifier {
       int nrWorkers,
       int genderWorkers,
       String location,
+      double locationLatitude,
+      double locationLongitude,
       String detailsLocation,
       int pricePerWorkerPerHour,
       DateTime dateTimeStart,
       DateTime dateTimeFinish) async {
-    final url = 'https://tucanu.com/api/jobs/';
+    final url = 'https://constantintuca.com/api/jobs/';
     try {
-      print("aici am ajuns");
       final response = await http.post(
         url,
         body: json.encode(
@@ -67,6 +69,8 @@ class Jobs with ChangeNotifier {
             'gender_workers': genderWorkers,
             'nr_workers': nrWorkers,
             'location': location,
+            'locationLatitude': locationLatitude,
+            'locationLongitude': locationLongitude,
             'price_per_worker': pricePerWorkerPerHour,
             'start_date': dateTimeStart.toString(),
             'finish_date': dateTimeFinish.toString()
@@ -90,7 +94,7 @@ class Jobs with ChangeNotifier {
 
   Future<void> addJobCandidate(String jobId) async {
     int id = int.tryParse(jobId);
-    final url = 'https://tucanu.com/api/jobs/candidates/';
+    final url = 'https://constantintuca.com/api/jobs/candidates/';
     try {
       final response = await http.post(
         url,
@@ -112,7 +116,7 @@ class Jobs with ChangeNotifier {
   Future<void> addFeedback(
       String provideTo, int feedbackStars, String feedback) async {
     int id = int.tryParse(provideTo);
-    final url = 'https://tucanu.com/api/jobs/feedback/';
+    final url = 'https://constantintuca.com/api/jobs/feedback/';
     try {
       final response = await http.post(
         url,
@@ -131,20 +135,14 @@ class Jobs with ChangeNotifier {
     }
   }
 
-  Future<void> fetchAndSetPlaces(
-    String locationName,
-    DateTime chosenDate,
-    DateTime chosenStartHour,
-    DateTime chosenFinishHour,
-  ) async {
+  Future<void> fetchAndSetPlaces(String locationName, double locationLatitude, double locationLongitude, DateTime chosenDate, DateTime chosenStartHour, DateTime chosenFinishHour) async {
     var _dateTimeStart = chosenStartHour;
     var _dateTimeFinish = chosenFinishHour;
-    print(_dateTimeStart);
-    print(_dateTimeFinish);
 
     final url =
-        'https://tucanu.com/api/jobs/?location=$locationName&start_date=$_dateTimeStart&finish_date=$_dateTimeFinish';
+        'https://constantintuca.com/api/jobs/?location=$locationName&locationLatitude=$locationLatitude&locationLongitude=$locationLongitude&start_date=$_dateTimeStart&finish_date=$_dateTimeFinish';
     try {
+      print(url);
       final response = await http.get(
         url,
         headers: {
@@ -165,6 +163,8 @@ class Jobs with ChangeNotifier {
                 nrWorkers: item['nr_workers'],
                 genderWorkers: item['gender_workers'],
                 location: item['location'],
+                locationLatitude: item['locationLatitude'],
+                locationLongitude: item['locationLongitude'],
                 pricePerWorkerPerHour: item['price_per_worker'],
                 dateTimeStart: DateTime.tryParse(item['start_date']),
                 dateTimeFinish: DateTime.tryParse(item['finish_date']),
@@ -189,9 +189,9 @@ class Jobs with ChangeNotifier {
     String url;
 
     if (history == false) {
-      url = 'https://tucanu.com/api/jobs/?start_date=$now';
+      url = 'https://constantintuca.com/api/jobs/?start_date=$now';
     } else {
-      url = 'https://tucanu.com/api/jobs/?finish_date=$now';
+      url = 'https://constantintuca.com/api/jobs/?finish_date=$now';
     }
     try {
       final response = await http.get(
@@ -215,6 +215,8 @@ class Jobs with ChangeNotifier {
                 nrWorkers: item['nr_workers'],
                 genderWorkers: item['gender_workers'],
                 location: item['location'],
+                locationLatitude: item['locationLatitude'],
+                locationLongitude: item['locationLongitude'],
                 pricePerWorkerPerHour: item['price_per_worker'],
                 dateTimeStart: DateTime.parse(item['start_date']),
                 dateTimeFinish: DateTime.parse(item['finish_date']),
@@ -228,7 +230,7 @@ class Jobs with ChangeNotifier {
   }
 
   Future<void> hasJobs() async {
-    final url = 'https://tucanu.com/api/jobs/has-jobs/';
+    final url = 'https://constantintuca.com/api/jobs/has-jobs/';
     try {
       final response = await http.get(
         url,
@@ -247,6 +249,7 @@ class Jobs with ChangeNotifier {
         _userHasJobAsCandidate = false;
       }
     } catch (error) {
+      print('---------------');
       //print(error);
       throw error;
     }
@@ -264,10 +267,13 @@ class Jobs with ChangeNotifier {
       'nrWorkers': _userJobs[jobIndex].nrWorkers,
       'genderWorkers': _userJobs[jobIndex].genderWorkers,
       'location': _userJobs[jobIndex].location,
+      'locationLatitude': _userJobs[jobIndex].locationLatitude,
+      'locationLongitude': _userJobs[jobIndex].locationLongitude,
       'pricePerWorkerPerHour': _userJobs[jobIndex].pricePerWorkerPerHour,
       'dateTimeStart': _userJobs[jobIndex].dateTimeStart,
       'dateTimeFinish': _userJobs[jobIndex].dateTimeFinish
     };
+    print(tempJob);
 
     if (newJob.title != '') {
       tempJob['title'] = newJob.title;
@@ -291,6 +297,14 @@ class Jobs with ChangeNotifier {
       tempJob['location'] = newJob.location;
     }
 
+    if (newJob.locationLatitude != 0) {
+      tempJob['locationLatitude'] = newJob.locationLatitude;
+    }
+
+    if (newJob.locationLongitude != 0) {
+      tempJob['locationLongitude'] = newJob.locationLongitude;
+    }
+
     if (newJob.dateTimeStart != null) {
       tempJob['dateTimeStart'] = newJob.dateTimeStart;
     }
@@ -298,7 +312,6 @@ class Jobs with ChangeNotifier {
     if (newJob.dateTimeFinish != null) {
       tempJob['dateTimeFinish'] = newJob.dateTimeFinish;
     }
-
     final myJob = Job(
         id: tempJob['id'],
         title: tempJob['title'],
@@ -306,6 +319,8 @@ class Jobs with ChangeNotifier {
         nrWorkers: tempJob['nrWorkers'],
         genderWorkers: tempJob['genderWorkers'],
         location: tempJob['location'],
+        locationLatitude: tempJob['locationLatitude'],
+        locationLongitude: tempJob['locationLongitude'],
         detailsLocation: tempJob['detailsLocation'],
         pricePerWorkerPerHour: tempJob['pricePerWorkerPerHour'],
         dateTimeStart: tempJob['dateTimeStart'],
@@ -313,38 +328,43 @@ class Jobs with ChangeNotifier {
 
     int id = int.tryParse(myJob.id);
 
-    final url = 'https://tucanu.com/api/jobs/?id=$id';
-
-    final response = await http.put(
-      url,
-      body: json.encode(
-        {
-          'id': tempJob['id'],
-          'title': tempJob['title'],
-          'descriptions': tempJob['description'],
-          'nr_workers': tempJob['nrWorkers'],
-          'gender_workers': tempJob['genderWorkers'],
-          'location': tempJob['location'],
-          'price_per_worker': tempJob['pricePerWorkerPerHour'],
-          'start_date': tempJob['dateTimeStart'].toString(),
-          'finish_date': tempJob['dateTimeFinish'].toString(),
+    try {
+      final url = 'https://constantintuca.com/api/jobs/?id=$id';
+      final response = await http.put(
+        url,
+        body: json.encode(
+          {
+            'id': tempJob['id'],
+            'title': tempJob['title'],
+            'descriptions': tempJob['description'],
+            'nr_workers': tempJob['nrWorkers'],
+            'gender_workers': tempJob['genderWorkers'],
+            'location': tempJob['location'],
+            'locationLatitude': tempJob['locationLatitude'],
+            'locationLongitude': tempJob['locationLongitude'],
+            'price_per_worker': tempJob['pricePerWorkerPerHour'],
+            'start_date': tempJob['dateTimeStart'].toString(),
+            'finish_date': tempJob['dateTimeFinish'].toString(),
+          },
+        ),
+        headers: {
+          'Content-type': 'application/json',
+          'Accept': 'application/json',
+          'Authorization': 'Token ' + userToken,
         },
-      ),
-      headers: {
-        'Content-type': 'application/json',
-        'Accept': 'application/json',
-        'Authorization': 'Token ' + userToken,
-      },
-    );
+      );
+    } catch (error) {
+      print(error);
+      throw error;
+    }
 
-    print(response);
     _userJobs[jobIndex] = myJob;
     notifyListeners();
   }
 
   Future<Job> getJobByJobId(String jobId) async {
     int id = int.parse(jobId);
-    var url = 'https://tucanu.com/api/jobs/?id=$id';
+    var url = 'https://constantintuca.com/api/jobs/?id=$id';
 
     final response = await http.get(
       url,
@@ -364,6 +384,8 @@ class Jobs with ChangeNotifier {
         nrWorkers: responseData[0]['nr_workers'],
         genderWorkers: responseData[0]['gender_workers'],
         location: responseData[0]['location'],
+        locationLatitude: responseData[0]['locationLatitude'],
+        locationLongitude: responseData[0]['locationLongitude'],
         pricePerWorkerPerHour: responseData[0]['price_per_worker'],
         dateTimeStart: DateTime.parse(responseData[0]['start_date']),
         dateTimeFinish: DateTime.parse(responseData[0]['finish_date']),
@@ -380,7 +402,7 @@ class Jobs with ChangeNotifier {
     final existingJobIndex = _userJobs.indexWhere((prod) => prod.id == jobId);
 
     int id = int.parse(jobId);
-    var url = 'https://tucanu.com/api/jobs/?id=$id';
+    var url = 'https://constantintuca.com/api/jobs/?id=$id';
 
     final response = await http.delete(
       url,
@@ -401,7 +423,7 @@ class Jobs with ChangeNotifier {
   Future<User> getUserByUserId(String userId) async {
     int id = int.tryParse(userId);
 
-    final url = 'https://tucanu.com/api/user/profile/?id=$id';
+    final url = 'https://constantintuca.com/api/user/profile/?id=$id';
     final response = await http.get(
       url,
       headers: {
@@ -435,7 +457,7 @@ class Jobs with ChangeNotifier {
     final jobs = _userJobs;
     for (var currentJob in jobs) {
       int id = int.parse(currentJob.id);
-      var url = 'https://tucanu.com/api/jobs/candidates/?job_id=$id';
+      var url = 'https://constantintuca.com/api/jobs/candidates/?job_id=$id';
 
       final response = await http.get(
         url,
@@ -464,7 +486,7 @@ class Jobs with ChangeNotifier {
     final jobs = _userJobs;
 
     int id = int.tryParse(jobId);
-    var url = 'https://tucanu.com/api/jobs/candidates/?job_id=$id';
+    var url = 'https://constantintuca.com/api/jobs/candidates/?job_id=$id';
 
     final response = await http.get(
       url,
@@ -529,7 +551,7 @@ class Jobs with ChangeNotifier {
 
   Future<void> acceptCandidature(String idJob, String idUser, int idRow) async {
     int id = idRow;
-    final url = 'https://tucanu.com/api/jobs/candidates/?id=$id';
+    final url = 'https://constantintuca.com/api/jobs/candidates/?id=$id';
 
     final response = await http.put(
       url,
@@ -551,7 +573,7 @@ class Jobs with ChangeNotifier {
 
   Future<void> rejectCandidature(int idRow) async {
     int id = idRow;
-    var url = 'https://tucanu.com/api/jobs/candidates/?id=$id';
+    var url = 'https://constantintuca.com/api/jobs/candidates/?id=$id';
 
     final response = await http.delete(
       url,
@@ -573,9 +595,9 @@ class Jobs with ChangeNotifier {
     var url;
 
     if (history == false) {
-      url = 'https://tucanu.com/api/jobs/candidates-jobs/?start_date=$now';
+      url = 'https://constantintuca.com/api/jobs/candidates-jobs/?start_date=$now';
     } else {
-      url = 'https://tucanu.com/api/jobs/candidates-jobs/?finish_date=$now';
+      url = 'https://constantintuca.com/api/jobs/candidates-jobs/?finish_date=$now';
     }
 
     final response = await http.get(
@@ -597,7 +619,7 @@ class Jobs with ChangeNotifier {
   Future<bool> hasFeedback(int provide_to_id) async {
     int id = -1;
     final url =
-        'https://tucanu.com/api/jobs/feedback/?provide_to=$provide_to_id&provide_by=$id';
+        'https://constantintuca.com/api/jobs/feedback/?provide_to=$provide_to_id&provide_by=$id';
 
     final response = await http.get(
       url,
@@ -623,9 +645,9 @@ class Jobs with ChangeNotifier {
     String url;
 
     if (provide_to_id == -1) {
-      url = 'https://tucanu.com/api/jobs/feedback/';
+      url = 'https://constantintuca.com/api/jobs/feedback/';
     } else {
-      url = 'https://tucanu.com/api/jobs/feedback/?provide_to=$provide_to_id';
+      url = 'https://constantintuca.com/api/jobs/feedback/?provide_to=$provide_to_id';
     }
 
     final response = await http.get(
@@ -663,9 +685,9 @@ class Jobs with ChangeNotifier {
     var url;
 
     if(id != -1) {
-      url = 'https://tucanu.com/api/jobs/feedback/?provide_to=$id';
+      url = 'https://constantintuca.com/api/jobs/feedback/?provide_to=$id';
     } else {
-      url = 'https://tucanu.com/api/jobs/feedback/';
+      url = 'https://constantintuca.com/api/jobs/feedback/';
     }
 
     final response = await http.get(

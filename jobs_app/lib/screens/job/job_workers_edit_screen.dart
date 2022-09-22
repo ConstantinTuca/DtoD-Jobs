@@ -106,6 +106,8 @@ class _JobWorkersEditScreenState extends State<JobWorkersEditScreen> {
         nrWorkers: _nrWorkers,
         genderWorkers: _genderWorker,
         location: job.location,
+        locationLatitude: job.locationLatitude,
+        locationLongitude: job.locationLongitude,
         detailsLocation: job.detailsLocation,
         pricePerWorkerPerHour: _cash,
         dateTimeStart: job.dateTimeStart,

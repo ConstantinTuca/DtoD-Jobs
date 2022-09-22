@@ -35,7 +35,7 @@ class Auth with ChangeNotifier {
   Future<void> login(String email, String password,
       [String facebookId = '']) async {
 
-    final url = 'https://tucanu.com/api/user/login/';
+    final url = 'https://constantintuca.com/api/user/login/';
     try {
       final response = await http.post(
         url,
@@ -81,7 +81,7 @@ class Auth with ChangeNotifier {
   Future<void> signup(String email, String password, String firstName,
       String lastName, String birthYear, String gender,
       [String facebookId = '']) async {
-    final url = 'https://tucanu.com/api/user/register/';
+    final url = 'https://constantintuca.com/api/user/register/';
     try {
       final response = await http.post(
         url,

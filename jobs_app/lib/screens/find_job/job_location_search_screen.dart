@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_google_places/flutter_google_places.dart';
 import 'package:geocoder/geocoder.dart';
@@ -12,7 +14,7 @@ import '../../widgets/quick_search_button.dart';
 import 'job_date_search_screen.dart';
 import '../../widgets/divider.dart';
 
-const kGoogleApiKey = "AIzaSyAvrYl4DUu8wmzERYaBKTd5ZP9MnV5ixQw";
+const kGoogleApiKey = "AIzaSyB_CNGxCTYO-iLkcTRfefo1x8GC39sKVK8";
 
 GoogleMapsPlaces _places = GoogleMapsPlaces(apiKey: kGoogleApiKey);
 
@@ -28,6 +30,8 @@ class _JobLocationSearchScreenState extends State<JobLocationSearchScreen> {
   final _descriptionFocusNode = FocusNode();
   final _form = GlobalKey<FormState>();
   var _locationName = '';
+  var _locationLatitude = 0.0;
+  var _locationLongitude = 0.0;
   var _isVisible = false;
 
   @override
@@ -43,10 +47,12 @@ class _JobLocationSearchScreenState extends State<JobLocationSearchScreen> {
   void showPlacePicker() async {
     LocationResult result = await Navigator.of(context).push(MaterialPageRoute(
         builder: (context) =>
-            PlacePicker("AIzaSyAvrYl4DUu8wmzERYaBKTd5ZP9MnV5ixQw")));
+            PlacePicker("AIzaSyB_CNGxCTYO-iLkcTRfefo1x8GC39sKVK8")));
 
     setState(() {
       _locationName = result.formattedAddress;
+      _locationLatitude = result.latLng.latitude;
+      _locationLongitude = result.latLng.longitude;
       _isVisible = true;
     });
   }
@@ -57,7 +63,7 @@ class _JobLocationSearchScreenState extends State<JobLocationSearchScreen> {
 
   void _saveForm() {
     Navigator.of(context)
-        .pushNamed(JobDateSearchScreen.routeName, arguments: _locationName);
+        .pushNamed(JobDateSearchScreen.routeName, arguments: {'locationName': _locationName, 'locationLatitude': _locationLatitude, 'locationLongitude': _locationLongitude});
   }
 
   @override

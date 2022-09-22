@@ -26,6 +26,8 @@ class _JobHoursInputScreenState extends State<JobHoursInputScreen> {
     nrWorkers: 0,
     genderWorkers: 0,
     location: '',
+    locationLatitude: 0.0,
+    locationLongitude: 0.0,
     detailsLocation: '',
     pricePerWorkerPerHour: 0,
     dateTimeStart: null,
@@ -48,9 +50,6 @@ class _JobHoursInputScreenState extends State<JobHoursInputScreen> {
   }
 
   void _saveForm(Job job) {
-    print(_dateTimeDeLa.toIso8601String());
-    print(_dateTimePanaLa.toIso8601String());
-
       _editedJob = Job(
         id: null,
         title: job.title,
@@ -58,6 +57,8 @@ class _JobHoursInputScreenState extends State<JobHoursInputScreen> {
         nrWorkers: job.nrWorkers,
         genderWorkers: job.genderWorkers,
         location: job.location,
+        locationLatitude: job.locationLatitude,
+        locationLongitude: job.locationLongitude,
         detailsLocation: job.detailsLocation,
         pricePerWorkerPerHour: job.pricePerWorkerPerHour,
         dateTimeStart: _dateTimeDeLa,

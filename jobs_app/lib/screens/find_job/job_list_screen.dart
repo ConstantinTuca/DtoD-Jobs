@@ -29,8 +29,6 @@ class _JobListScreenState extends State<JobListScreen> {
           });
 
     });
-    print('userii sunt');
-    print(_jobUsers);
     _isLoading = false;
   }
 
@@ -58,6 +56,8 @@ class _JobListScreenState extends State<JobListScreen> {
         future: Provider.of<Jobs>(context, listen: false)
             .fetchAndSetPlaces(
           list['locationName'],
+          list['locationLatitude'],
+          list['locationLongitude'],
           list['chosenDate'],
           list['chosenStartHour'],
           list['chosenFinishHour'],

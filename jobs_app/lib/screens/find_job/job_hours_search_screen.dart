@@ -33,18 +33,15 @@ class _JobHoursSearchScreenState extends State<JobHoursSearchScreen> {
     super.dispose();
   }
 
-  void _saveForm(String locationName, DateTime chosenDate) {
-    _dateTimeDeLa = DateTime(chosenDate.year, chosenDate.month, chosenDate.day,
+  void _saveForm(Map list) {
+    _dateTimeDeLa = DateTime(list['chosenDate'].year, list['chosenDate'].month, list['chosenDate'].day,
         _dateTimeDeLa.hour, _dateTimeDeLa.minute);
-    _dateTimePanaLa = DateTime(chosenDate.year, chosenDate.month, chosenDate.day,
+    _dateTimePanaLa = DateTime(list['chosenDate'].year, list['chosenDate'].month, list['chosenDate'].day,
         _dateTimePanaLa.hour, _dateTimePanaLa.minute);
+    list['chosenStartHour'] = _dateTimeDeLa;
+    list['chosenFinishHour'] = _dateTimePanaLa;
     Navigator.of(context)
-        .pushNamed(JobListScreen.routeName, arguments: {
-      'locationName': locationName,
-      'chosenDate': chosenDate,
-      'chosenStartHour': _dateTimeDeLa,
-      'chosenFinishHour': _dateTimePanaLa,
-    });
+        .pushNamed(JobListScreen.routeName, arguments: list);
   }
 
   @override
@@ -187,7 +184,7 @@ class _JobHoursSearchScreenState extends State<JobHoursSearchScreen> {
       ),
       floatingActionButton: FloatingActionButton.extended(
         onPressed: () {
-          _saveForm(list['locationName'], list['chosenDate']);
+          _saveForm(list);
         },
         label: Row(
           children: <Widget>[

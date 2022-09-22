@@ -8,6 +8,8 @@ class Job {
   final int nrWorkers;
   final int genderWorkers;
   final String location;
+  final double locationLatitude;
+  final double locationLongitude;
   String detailsLocation;
   final int pricePerWorkerPerHour;
   final DateTime dateTimeStart;
@@ -21,6 +23,8 @@ class Job {
     @required this.nrWorkers,
     @required this.genderWorkers,
     @required this.location,
+    @required this.locationLatitude,
+    @required this.locationLongitude,
     @required this.pricePerWorkerPerHour,
     @required this.dateTimeStart,
     @required this.dateTimeFinish,

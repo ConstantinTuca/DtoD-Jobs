@@ -150,7 +150,7 @@ class _HomeScreenState extends State<HomeScreen> {
 //                    strokeWidth: 8.0,
 //                    strokeColor: Theme.of(context).primaryColor,
 //                    child: Text(
-//                      "TucAnu",
+//                      "constantintuca",
 //                      style: TextStyle(
 //                        fontSize: 60,
 //                        fontWeight: FontWeight.bold,

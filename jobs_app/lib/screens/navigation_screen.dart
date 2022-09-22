@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import './home_screen.dart';
+import 'home_screen.dart';
 import 'offer_job/job_details_input_screen.dart';
-import 'authentification/login_screen.dart';
-import './profile/profile_details_screen.dart';
-import './find_job/job_location_search_screen.dart';
+import 'messages/messages_maintenance_screen.dart';
+import 'profile/profile_details_screen.dart';
+import 'find_job/job_location_search_screen.dart';
 import './home_tabs_screen.dart';
 import '../providers/auth.dart';
 import '../providers/jobs.dart';
@@ -29,7 +29,7 @@ class _NavigationScreenState extends State<NavigationScreen> {
       {'page': HomeScreen(), 'title': 'Acasă'},
       {'page': JobLocationSearchScreen(), 'title': 'Caută'},
       {'page': JobDetailsInputScreen(), 'title': 'Oferă'},
-      //{'page': HomeScreen(), 'title': 'Mesaje'},
+      {'page': MessagesMaintenanceScreen(), 'title': 'Mesaje'},
       {'page': ProfileDetailsScreen(), 'title': 'Profil'},
     ];
     _selectedPageIndex = widget.index;
@@ -84,13 +84,13 @@ class _NavigationScreenState extends State<NavigationScreen> {
                     ),
                     title: Text('Oferă'),
                   ),
-//                  BottomNavigationBarItem(
-//                    backgroundColor: Colors.white,
-//                    icon: Icon(
-//                      Icons.message,
-//                    ),
-//                    title: Text('Mesaje'),
-//                  ),
+                 BottomNavigationBarItem(
+                   backgroundColor: Colors.white,
+                   icon: Icon(
+                     Icons.message,
+                   ),
+                   title: Text('Mesaje'),
+                 ),
                   BottomNavigationBarItem(
                     backgroundColor: Colors.white,
                     icon: Icon(

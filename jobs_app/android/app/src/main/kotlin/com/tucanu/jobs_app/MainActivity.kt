@@ -1,4 +1,4 @@
-package com.tucanu.jobs_app
+package com.constantintuca.jobs_app
 
 import androidx.annotation.NonNull;
 import io.flutter.embedding.android.FlutterActivity

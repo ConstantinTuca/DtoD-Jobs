@@ -28,6 +28,8 @@ class _JobHoursEditScreenState extends State<JobHoursEditScreen> {
     nrWorkers: 0,
     genderWorkers: 0,
     location: '',
+    locationLatitude: 0.0,
+    locationLongitude: 0.0,
     detailsLocation: '',
     pricePerWorkerPerHour: 0,
     dateTimeStart: null,
@@ -65,6 +67,8 @@ class _JobHoursEditScreenState extends State<JobHoursEditScreen> {
       nrWorkers: job.nrWorkers,
       genderWorkers: job.genderWorkers,
       location: job.location,
+      locationLatitude: job.locationLatitude,
+      locationLongitude: job.locationLongitude,
       detailsLocation: job.detailsLocation,
       pricePerWorkerPerHour: job.pricePerWorkerPerHour,
       dateTimeStart: _dateTimeDeLa,
@@ -72,7 +76,6 @@ class _JobHoursEditScreenState extends State<JobHoursEditScreen> {
       duration: job.duration,
       userId: job.userId,
     );
-
     try {
       await Provider.of<Jobs>(context, listen: false)
           .updateJob(_editedJob.id, _editedJob);

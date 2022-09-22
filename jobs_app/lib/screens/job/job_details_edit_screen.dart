@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 
 import 'package:provider/provider.dart';
@@ -24,6 +26,8 @@ class _JobDetailsEditScreenState extends State<JobDetailsEditScreen> {
     nrWorkers: 0,
     genderWorkers: 0,
     location: '',
+    locationLatitude: 0.0,
+    locationLongitude: 0.0,
     detailsLocation: '',
     pricePerWorkerPerHour: 0,
     dateTimeStart: null,
@@ -168,6 +172,8 @@ class _JobDetailsEditScreenState extends State<JobDetailsEditScreen> {
                         nrWorkers: _editedJob.nrWorkers,
                         genderWorkers: _editedJob.genderWorkers,
                         location: _editedJob.location,
+                        locationLatitude: _editedJob.locationLatitude,
+                        locationLongitude: _editedJob.locationLongitude,
                         detailsLocation: _editedJob.detailsLocation,
                         pricePerWorkerPerHour: _editedJob.pricePerWorkerPerHour,
                         dateTimeStart: _editedJob.dateTimeStart,
@@ -213,6 +219,8 @@ class _JobDetailsEditScreenState extends State<JobDetailsEditScreen> {
                         nrWorkers: _editedJob.nrWorkers,
                         genderWorkers: _editedJob.genderWorkers,
                         location: _editedJob.location,
+                        locationLatitude: _editedJob.locationLatitude,
+                        locationLongitude: _editedJob.locationLongitude,
                         detailsLocation: _editedJob.detailsLocation,
                         pricePerWorkerPerHour: _editedJob.pricePerWorkerPerHour,
                         dateTimeStart: _editedJob.dateTimeStart,

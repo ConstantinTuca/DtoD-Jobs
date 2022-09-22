@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:intl/date_symbol_data_local.dart';
+import 'package:jobs_app/screens/messages/messages_maintenance_screen.dart';
+import 'package:jobs_app/screens/messages/messages_maintenance_screen.dart';
 import 'package:provider/provider.dart';
 
 import 'providers/jobs.dart';
@@ -39,6 +41,7 @@ import 'screens/user_job_list_history_screen.dart';
 import 'screens/feedback/offer_feedback_screen.dart';
 import 'screens/feedback/feedback_post_success_screen.dart';
 import 'screens/feedback/feedback_list_screen.dart';
+import 'screens/messages/messages_maintenance_screen.dart';
 
 import './providers/auth.dart';
 import './providers/jobs.dart';
@@ -121,6 +124,7 @@ class MyApp extends StatelessWidget {
             UserJobListHistoryScreen.routeName: (ctx) => UserJobListHistoryScreen(),
             OfferFeedbackScreen.routeName: (ctx) => OfferFeedbackScreen(),
             FeedbackListScreen.routeName: (ctx) => FeedbackListScreen(),
+            MessagesMaintenanceScreen.routeName: (ctx) => MessagesMaintenanceScreen(),
           },
           onGenerateRoute: (settings) {
             return MaterialPageRoute(
